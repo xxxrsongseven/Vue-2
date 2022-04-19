@@ -26,7 +26,11 @@ import MyFooter from "./components/MyFooter";
 export default {
   data() {
     return {
-      lists:JSON.parse(localStorage.getItem('msg')) || []
+      lists: [
+        { id: "001", name: "吃饭", done: false },
+        { id: "002", name: "睡觉", done: false },
+        { id: "003", name: "打豆豆", done: false },
+      ],
     };
   },
   methods: {
@@ -57,15 +61,6 @@ export default {
     MyList,
     MyFooter,
   },
-  watch:{
-    lists:{
-      deep:true,
-      handler(newVal){
-      localStorage.setItem('msg',JSON.stringify(newVal))
-
-      }
-    }
-  }
 };
 </script>
 

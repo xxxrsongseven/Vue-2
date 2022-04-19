@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sessionStorage</title>
+</head>
+<body>
+    <h2>sessionStorage</h2>
+    <button onclick="saveData()">点我储存数据</button>
+    <button onclick="deleData()">点我删除数据</button>
+    <button onclick="loadData()">点我读取数据</button>
+    <button onclick="deleteAllData()">点我删除所有数据</button>
+</body>
+<script>
+    let a = {
+        name:'何子琪',
+        age1:21,
+        girfriend:'王思颖',
+        age2:20
+    }
+    function saveData(){
+        sessionStorage.setItem('msg','hello!')
+        sessionStorage.setItem('person',JSON.stringify(a))
+    }
+    function deleData(){
+        sessionStorage.removeItem('msg')
+    }
+    function loadData(){
+        let msg = sessionStorage.getItem('person')
+        alert(msg)
+        console.log(JSON.parse(msg));
+    }
+    function deleteAllData(){
+        sessionStorage.clear()
+    }
+</script>
+</html>
