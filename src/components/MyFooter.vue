@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  props: ["lists", "checkAllTodo", "clearAllTodo"],
+  props: ["lists"],
   computed: {
     total() {
       return this.lists.length;
@@ -30,11 +30,11 @@ export default {
   methods: {
     clearAll() {
       if (confirm("确认要全部删除吗？")) {
-        this.clearAllTodo();
+        this.$emit('clearAllTodo')
       }
     },
     selectAll(e) {
-      this.checkAllTodo(e.target.checked);
+      this.$emit('checkAllTodo',e.target.checked)
     },
   },
 };

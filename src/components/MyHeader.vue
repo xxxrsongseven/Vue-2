@@ -17,7 +17,6 @@ export default {
       message: "",
     };
   },
-  props: ["addTodo"],
   methods: {
     getMsg() {
       if (this.message.trim() != "") {
@@ -28,7 +27,7 @@ export default {
           done: false,
         };
         //通知App组件添加一个todo对象
-        this.addTodo(todoObj);
+        this.$emit('addTodo',todoObj)
         //清空输出
         this.message = "";
       } else {

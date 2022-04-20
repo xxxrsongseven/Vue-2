@@ -2,16 +2,14 @@
   <div id="root">
     <div class="todo-container">
       <div class="todo-wrap">
-        <MyHeader :addTodo="addTodo" />
+        <MyHeader @addTodo="addTodo" />
         <MyList
           :lists="lists"
-          :checkTodo="checkTodo"
-          :deleteTode="deleteTode"
         />
         <MyFooter
           :lists="lists"
-          :checkAllTodo="checkAllTodo"
-          :clearAllTodo="clearAllTodo"
+          @checkAllTodo="checkAllTodo"
+          @clearAllTodo="clearAllTodo"
         />
       </div>
     </div>
@@ -23,6 +21,7 @@
 import MyHeader from "./components/MyHeader";
 import MyList from "./components/MyList";
 import MyFooter from "./components/MyFooter";
+import pubsub from "pubsub-js"
 export default {
   data() {
     return {
@@ -40,7 +39,7 @@ export default {
         if (todo.id === id) todo.done = !todo.done;
       });
     },
-    deleteTode(id) {
+    deleteTode(_,id) {
       this.lists = this.lists.filter((lists) => lists.id !== id);
     },
     checkAllTodo(done) {
@@ -51,6 +50,12 @@ export default {
         return !todo.done;
       });
     },
+    //更新一个TODO
+    updateTodo(id,title){
+      this.lists.forEach((todo) => {
+        if (todo.id === id) todo.name = title;
+      });
+    }
   },
   components: {
     MyHeader,
@@ -65,7 +70,17 @@ export default {
 
       }
     }
-  }
+  },
+  mounted(){
+    this.$bus.$on('updateTodo',this.updateTodo)
+    this.$bus.$on('checkTodo',this.checkTodo)
+    this.pubId=pubsub.subscribe('deleteTode',this.deleteTode)
+  },
+  beforeDestroy(){
+    this.$bus.$off('checkTodo')
+     this.$bus.$off('updateTodo')
+    pubsub.unsubscribe(this.pubId)
+  },
 };
 </script>
 
@@ -95,9 +110,21 @@ body {
   border: 1px solid #bd362f;
 }
 
+.btn-edit {
+  color: #fff;
+  background-color: rgb(61, 107, 246);
+  border: 1px solid rgb(98, 98, 235);
+  margin-right: 10px;
+}
+
 .btn-danger:hover {
   color: #fff;
   background-color: #bd362f;
+}
+
+.btn-edit:hover {
+  color: #fff;
+  background-color: #2f39f2;
 }
 
 .btn:focus {
