@@ -23,7 +23,6 @@ export default {
           this.$bus.$emit('checkTodo',id)
       },
       deleteItem(id){
-        console.log(id);
           if(confirm('确认删除吗？')){
           // this.$bus.$emit('deleteTode',id)
           pubsub.publish('deleteTode',id)
